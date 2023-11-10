@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.desafio.desafiocrud.dto.UserDTO;
 import br.com.desafio.desafiocrud.model.User;
+import br.com.desafio.desafiocrud.regraNegocio.RNUserCadastro;
 import br.com.desafio.desafiocrud.service.UserService;
-import br.com.exception.ResourceNotFoundException;
 
 @RestController
 @RequestMapping("/api/users")
@@ -63,18 +64,18 @@ public class UserController {
     }
 
     @PutMapping("{idUser}")
-    public ResponseEntity<User> updateUser(@PathVariable Integer idUser, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<User> updateUser(@Validated  @PathVariable Integer idUser, @RequestBody UserDTO userDTO) {
 
         Optional<User> user = userService.findUser(idUser);
 
-          if (user.isPresent()) {
-
-            
+          if (user.isPresent()) {            
             user.get().setFirstName(userDTO.getFirstName());
-            
-            
+            user.get().setBirthday(null);
+
+            RNUserCadastro.getInstance().validate(user);
+
             return new ResponseEntity<>(userService.saveUser(user.get()), HttpStatus.OK);
-            // return ResponseEntity.ok().build();
+
         } else {
             return ResponseEntity.notFound().build();
         }

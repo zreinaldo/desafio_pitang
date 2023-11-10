@@ -23,12 +23,12 @@ import javax.validation.constraints.NotNull;
 public class User implements Serializable {
 
     @Id
-    @Column(name = "ID_USUARIO", nullable = false)
+    @Column(name = "ID_USER", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
 
     @Column(name = "FIRST_NAME", nullable = false)
-    @NotNull(message="Invalid fields") 
+    @NotNull(message="Invalid fields")     
     private String firstName;
     
     @Column(name = "LAST_NAME", nullable = false)
@@ -52,7 +52,7 @@ public class User implements Serializable {
     private String phone;
     
     @OneToMany(cascade =  CascadeType.ALL , targetEntity = Car.class, fetch = FetchType.LAZY, orphanRemoval = true)    
-    @JoinColumn(name = "ID_USUARIO")
+    @JoinColumn(name = "ID_USER")
     private List<Car> cars;
 
     public Integer getIdUser() {
@@ -150,7 +150,5 @@ public class User implements Serializable {
         } else if (!idUser.equals(other.idUser))
             return false;
         return true;
-    }
-
-    
+    }    
 }
