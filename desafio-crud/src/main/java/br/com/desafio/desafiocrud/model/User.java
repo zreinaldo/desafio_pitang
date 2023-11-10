@@ -1,5 +1,6 @@
 package br.com.desafio.desafiocrud.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
@@ -10,44 +11,48 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "USER", uniqueConstraints = { @UniqueConstraint(columnNames = { "EMAIL", "LOGIN" }) })
-public class User {
+public class User implements Serializable {
 
     @Id
-   
-    @Column(name = "ID_USER")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_USUARIO", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
 
-    @Column(name = "FIRST_NAME")
+    @Column(name = "FIRST_NAME", nullable = false)
+    @NotNull(message="Invalid fields") 
     private String firstName;
     
-    @Column(name = "LAST_NAME")
+    @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
     
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", nullable = false)
+    @Email
     private String email;
     
-    @Column(name = "BIRTHDAY")
+    @Column(name = "BIRTHDAY", nullable = false)
     private Date birthday;
     
-    @Column(name = "LOGIN")
+    @Column(name = "LOGIN", nullable = false)
     private String login;
     
 
-    @Column(name = "PASSWORD")
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
     
-    @Column(name = "PHONE")
+    @Column(name = "PHONE", nullable = false)
     private String phone;
     
-    @OneToMany(cascade =  CascadeType.ALL , mappedBy = "user", targetEntity = Car.class, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(cascade =  CascadeType.ALL , targetEntity = Car.class, fetch = FetchType.LAZY, orphanRemoval = true)    
+    @JoinColumn(name = "ID_USUARIO")
     private List<Car> cars;
 
     public Integer getIdUser() {
@@ -120,6 +125,31 @@ public class User {
 
     public void setCars(List<Car> cars) {
         this.cars = cars;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (idUser == null) {
+            if (other.idUser != null)
+                return false;
+        } else if (!idUser.equals(other.idUser))
+            return false;
+        return true;
     }
 
     

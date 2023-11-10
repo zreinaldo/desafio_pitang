@@ -1,32 +1,26 @@
 package br.com.desafio.desafiocrud.model;
 
-import javax.persistence.CascadeType;
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name="CARS", uniqueConstraints={@UniqueConstraint(columnNames={"LICENSE_PLATE"})})
-public class Car {
+public class Car implements Serializable{
 
  
-    @ManyToOne(cascade =  CascadeType.ALL)
-    @JoinColumn(name="ID_USER", nullable=false)
-   private User user;
-
-
-    @Id
+  @Id
     @Column(name = "ID_CAR")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCar;
 
-    @Column(name = "LICENSE_PLATE")
+    @Column(name = "LICENSE_PLATE" )
     private String licensePlate;
     @Column(name = "YEAR")
     private int year;
@@ -67,4 +61,59 @@ public class Car {
         this.color = color;
     }
 
+    public Integer getIdCar() {
+        return idCar;
+    }
+
+    public void setIdCar(Integer idCar) {
+        this.idCar = idCar;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;        
+        result = prime * result + ((idCar == null) ? 0 : idCar.hashCode());
+        result = prime * result + ((licensePlate == null) ? 0 : licensePlate.hashCode());
+        result = prime * result + year;
+        result = prime * result + ((model == null) ? 0 : model.hashCode());
+        result = prime * result + ((color == null) ? 0 : color.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Car other = (Car) obj;        
+        if (idCar == null) {
+            if (other.idCar != null)
+                return false;
+        } else if (!idCar.equals(other.idCar))
+            return false;
+        if (licensePlate == null) {
+            if (other.licensePlate != null)
+                return false;
+        } else if (!licensePlate.equals(other.licensePlate))
+            return false;
+        if (year != other.year)
+            return false;
+        if (model == null) {
+            if (other.model != null)
+                return false;
+        } else if (!model.equals(other.model))
+            return false;
+        if (color == null) {
+            if (other.color != null)
+                return false;
+        } else if (!color.equals(other.color))
+            return false;
+        return true;
+    }
+
+    
 }
