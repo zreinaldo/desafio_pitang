@@ -1,8 +1,13 @@
 package br.com.desafio.desafiocrud.dto;
 
-import javax.persistence.Column;
-
 public class CarDTO {
+
+    private Integer idUser;
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+
 
     private Integer idCar;
     private String licensePlate;
@@ -12,12 +17,13 @@ public class CarDTO {
 
 
     
-    public CarDTO(Integer idCar, String licensePlate, int year, String model, String color) {
+    public CarDTO(Integer idCar, String licensePlate, int year, String model, String color, Integer idUser) {
         this.idCar = idCar;
         this.licensePlate = licensePlate;
         this.year = year;
         this.model = model;
         this.color = color;
+        this.idUser = idUser;
     }
 
 
