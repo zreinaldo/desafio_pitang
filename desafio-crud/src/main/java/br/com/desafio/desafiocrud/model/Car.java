@@ -1,26 +1,38 @@
 package br.com.desafio.desafiocrud.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
-@Table(name="CARS", uniqueConstraints={@UniqueConstraint(columnNames={"LICENSE_PLATE"})})
-public class Car implements Serializable{
+@Table(name = "CARS", uniqueConstraints = { @UniqueConstraint(columnNames = { "LICENSE_PLATE" }) })
+public class Car implements Serializable {
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_USER")
+    @JsonBackReference
+    private Car cars;
 
     @Id
     @Column(name = "ID_CAR")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCar;
 
-    @Column(name = "LICENSE_PLATE" )
+    @Column(name = "LICENSE_PLATE")
     private String licensePlate;
     @Column(name = "YEAR")
     private int year;
@@ -69,10 +81,18 @@ public class Car implements Serializable{
         this.idCar = idCar;
     }
 
+    public Car getCars() {
+        return cars;
+    }
+
+    public void setCars(Car cars) {
+        this.cars = cars;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;        
+        int result = 1;
         result = prime * result + ((idCar == null) ? 0 : idCar.hashCode());
         result = prime * result + ((licensePlate == null) ? 0 : licensePlate.hashCode());
         result = prime * result + year;
@@ -89,7 +109,7 @@ public class Car implements Serializable{
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Car other = (Car) obj;        
+        Car other = (Car) obj;
         if (idCar == null) {
             if (other.idCar != null)
                 return false;
@@ -115,5 +135,4 @@ public class Car implements Serializable{
         return true;
     }
 
-    
 }

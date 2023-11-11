@@ -54,7 +54,7 @@ public class UserDTO {
     public String getLogin() {
         return login;
     }
-
+    
     public String getPassword() {
         return password;
     }
