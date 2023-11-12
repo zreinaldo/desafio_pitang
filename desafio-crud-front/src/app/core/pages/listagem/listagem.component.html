@@ -1,0 +1,28 @@
+<div class="table-responsive">
+  <table class="table" >
+    <thead>
+      <tr>
+        <th scope="col">idUser</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">e-mail</th>
+        <th scope="col">Birthday</th>
+        <th scope="col">Login</th>
+        <th scope="col">Password</th>
+        <th scope="col">Phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of users" class="">
+        <td scope="row">{{ item.idUser }}</td>
+        <td>{{ item.firstName }}</td>
+        <td>{{ item.lastName }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.birthday }}</td>
+        <td>{{ item.login }}</td>
+        <td>{{ item.password }}</td>
+        <td>{{ item.phone }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
