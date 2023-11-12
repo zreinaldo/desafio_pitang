@@ -26,6 +26,7 @@ import br.com.desafio.desafiocrud.service.CarService;
 @RestController
 @RequestMapping("/api/cars")
 @CrossOrigin(origins = "http://localhost:4200")
+//@Api(tags = "Car Operations")
 public class CarController {
 
 
@@ -33,12 +34,14 @@ public class CarController {
     private CarService carService;
 
 
-        @GetMapping()
+    @GetMapping()
+ //   @ApiOperation(value = "retorna os carros" )
     public List<Car> getCars() {
         return carService.findCars();
     }
 
     @GetMapping("{idCar}")
+  //  @ApiOperation(value = "retorna um carro" )
     public ResponseEntity<Optional<Car>> getCar(@PathVariable Integer idCar) {
 
           Optional<Car> car = carService.findCar(idCar);
@@ -58,6 +61,7 @@ public class CarController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    //@ApiOperation(value = "Inclui um carro" )
     public Car saveCar(@RequestBody CarDTO carDTO) {
         Car car = new Car();
         BeanUtils.copyProperties(carDTO, car);
@@ -67,6 +71,7 @@ public class CarController {
     }
 
     @PutMapping("{idCar}")
+    //@ApiOperation(value = "alterar um carro" )
     public ResponseEntity<Car> updateCar(@Validated  @PathVariable Integer idCar, @RequestBody CarDTO carDTO) {
 
         Optional<Car> car = carService.findCar(idCar);
@@ -82,6 +87,7 @@ public class CarController {
     }
 
     @DeleteMapping("{idCar}")
+    //@ApiOperation(value = "deleta  um carro" )
     public ResponseEntity<Void> deleteCar(@PathVariable Integer idCar) {
         Optional<Car> car = carService.findCar(idCar);
         if (car.isPresent()) {

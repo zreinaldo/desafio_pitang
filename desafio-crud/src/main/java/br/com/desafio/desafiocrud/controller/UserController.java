@@ -27,12 +27,14 @@ import br.com.desafio.desafiocrud.service.UserService;
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "http://localhost:4200")
+//@Api(tags = "Users oprations")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping()
+    // @ApiOperation(value = "retorna os usuarios" )
     public List<User> getUsers() {
         return userService.findUsers();
     }
